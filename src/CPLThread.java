@@ -22,19 +22,19 @@ public class CPLThread implements Runnable {
 	
 	/**
 	 * Constructor de la clase.
-	 * En caso de ser la primer instancia, inicializa allCPL.
+	 * En caso de ser la primer instancia, inicializa variables estaticas.
 	 * @param name 
 	 * @param first 
 	 * @param latest
 	 * @param pL
 	 */
 	public CPLThread(String name,Integer first, Integer latest, PrimeList pL) {
-		this.pL= pL;
 		this.first=first;
 		this.latest=latest;
 		this.name=name;
 		cPL = new TreeSet<Integer>();
 		if(allCPL==null){
+			this.pL= pL;
 			allCPL = new TreeSet<Integer>();
 		}
 		t = new Thread(this);		
