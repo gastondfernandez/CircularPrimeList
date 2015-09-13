@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
+
 import java.util.TreeSet;
 
 
@@ -9,48 +7,41 @@ public class CircularPrimeList{
 	private static TreeSet<Integer> cpl;
 	private TreeSet<Integer> correntT;
 	private static final Integer LATEST=1000000;
-	 
-	public static void main(String[] args) {
-		long TInicio, TFin; 
-		TInicio = System.currentTimeMillis(); //Tiempo inicio
-		
-		CircularPrimeList cl = new CircularPrimeList(LATEST);
-		
-		TFin = System.currentTimeMillis(); //Tiempo fin
-		System.out.println("\nTiempo de ejecucion en milisegundos: " + (TFin - TInicio)); //Mostramos en pantalla el tiempo de ejecución en milisegundos
-	}
-	
 
-	
+
+
 	public CircularPrimeList(Integer limit) {
 		pl = new PrimeList(limit);
 		System.out.println("Desde el 0 a "+LATEST);
 		System.out.println("Existen "+pl.getList().size()+" Primos");
-		
+
 		calculatorPrimeCircularList();
+
 		System.out.println("Existen "+cpl.size()+" Primos Circulares");
 		System.out.println("Estos son "+cpl.toString());
-	
+
 	}
-	
+
+
+	/**
+	 * Este metodo genera el conjunto de primos circulares.
+	 */
 	private void calculatorPrimeCircularList(){
-		cpl = new TreeSet<Integer>(); //Nuevo conjunto de primos circulares.
-		cpl.add(2); //Necesito al menos un elemento, agrego el primer primo circular.
+		cpl = new TreeSet<Integer>(); 
+		cpl.add(2); 
 		for (Integer corrent : pl.getList()) {
 			if(primeCirculator(corrent)){
 				TreeSet<Integer> rotations = rotations(corrent);
-				//Si un numero es Primo Circular, todas las rotaciones de sus digitos tambien lo son.
-				//Por lo tanto agrego todas sus rotaciones al conjunto.
 				cpl.addAll(rotations);
 			}
 		}	
 	}
-	
-	
+
+
 	/**
-	 * 
-	 * @param corrent
-	 * @return
+	 * Este metodo calcula si un numero es primo circular.
+	 * @param current
+	 * @return True en caso de que sea Primo Circular, o false en caso contrario.
 	 */
 	private boolean primeCirculator(Integer current){
 		if(cpl.contains(current)){ //Verifico que no este calculado.
@@ -70,11 +61,11 @@ public class CircularPrimeList{
 			return true;
 		}
 	}
-	
 
-	
+
+
 	/**
-	 * @return una lista con las n rotaciones de 'number'.
+	 * @return conjunto con las n rotaciones de 'number'.
 	 */
 	private TreeSet<Integer> rotations(Integer number){
 		TreeSet<Integer> numberSet = new TreeSet<Integer>(); 
@@ -86,19 +77,29 @@ public class CircularPrimeList{
 		}
 		return numberSet;	
 	}
-	
-	
+
+
 	/**
 	 * @return numero con 'numDes' rotaciones.
 	 */
-	private Integer displace(Integer numero, Integer numDes){
-		String cadena = Integer.toString(numero);
+	private Integer displace(Integer number, Integer numDes){
+		String cadena = Integer.toString(number);
 		for (int i = 0; i < numDes; i++) {
 			cadena=cadena.substring(1, cadena.length())+cadena.charAt(0);
 		}
 		return Integer.parseInt(cadena);
 	}
-	
-	
+
+
+	public static void main(String[] args) {
+		long sTime, fTime; 
+		sTime = System.currentTimeMillis(); //Tiempo inicio
+
+		CircularPrimeList cl = new CircularPrimeList(LATEST);
+
+		fTime = System.currentTimeMillis(); //Tiempo fin
+		System.out.println("El Tiempo de ejecucion es de " + (fTime - sTime)+"mls"); //Mostramos en pantalla el tiempo de ejecución en milisegundos
+	}	
+
 
 }

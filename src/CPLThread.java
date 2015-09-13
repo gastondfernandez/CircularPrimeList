@@ -4,18 +4,30 @@ import java.util.TreeSet;
 
 
 public class CPLThread implements Runnable {
-	
+	/**
+	 * Variables en comun entre todas las instancias de la clase.
+	 */
 	private static volatile SortedSet<Integer> allCPL; 
 	private static volatile long totalTime=0;
 	private static PrimeList pL;
 	
+	/**
+	 * Varables propias de cada objeto.
+	 */
 	private Thread t;
 	private SortedSet<Integer> cPL;
 	private long time,sTime,fTime;
 	private Integer first,latest;
 	private String name;
 	
-	
+	/**
+	 * Constructor de la clase.
+	 * En caso de ser la primer instancia, inicializa allCPL.
+	 * @param name 
+	 * @param first 
+	 * @param latest
+	 * @param pL
+	 */
 	public CPLThread(String name,Integer first, Integer latest, PrimeList pL) {
 		this.pL= pL;
 		this.first=first;
@@ -63,14 +75,13 @@ public class CPLThread implements Runnable {
 	
 	/**
 	 * 
-	 * @param corrent
-	 * @return
+	 * @param current
+	 * @return True si un numero es Primo Circular, False en caso contrario.
 	 */
 	private boolean primeCirculator(Integer current){
-		if(allCPL.contains(current)){ //Verifico que no este calculado.
+		if(allCPL.contains(current)){
 			return true;
 		}else{
-			//Caso contrario lo calculo.
 			TreeSet<Integer> currentRotations= rotations(current);
 			boolean isPrime= true;
 			currentRotations.remove(current);
@@ -113,8 +124,8 @@ public class CPLThread implements Runnable {
 	
 	
 	public static void main(String[] args) {
-
-		PrimeList pL= new PrimeList(1000000);
+		Integer LATEST=1000000;
+		PrimeList pL= new PrimeList(LATEST);
 		CPLThread hilo1 = new CPLThread("Hilo 1",1, 200000, pL);
 		CPLThread hilo2 = new CPLThread("Hilo 2",200000, 600000, pL);
 		CPLThread hilo3 = new CPLThread("Hilo 3",600000, 1000000, pL);

@@ -3,54 +3,66 @@ import java.util.TreeSet;
 
 
 public class PrimeList {
-	private Integer first=0;
 	private Integer latest;
 	private boolean calculated;
+	private boolean calculatedBoolean;
 	private boolean[] notPrime;
 	SortedSet<Integer> primeSet;
-	
-	
-	
+
+
+	/**
+	 * Constructor, asigna a 'latest' hasta que numero se va a generar la lista de primos.
+	 * @param latest
+	 */
 	public PrimeList(Integer latest) {
 		calculated=false;
-		if(first.compareTo(latest)<0){
-			this.first=first;
+		calculatedBoolean=false;
+		if(latest>0){
 			this.latest=latest;
 		}else{
 			this.latest=0;
 		}
 
 	}
-	
-	
+
+	/**
+	 * Verifica si esta calculada la lista de primos y la retorna.
+	 * En caso contrario, realiza el calculo antes de retornarla.
+	 * @return SortedSet<Integer>
+	 */
 	public SortedSet<Integer> getList(){
 		if(calculated){
 			return primeSet;
 		}else{
 			calculated=true;
+			calculatedBoolean=true;
 			return calculateList();
 		}
 	}
-	
+
+
+	/**
+	 * 	Verifica si el areglo esta calculado y lo retorna.
+	 *  En caso contrario, realiza el calculo antes de retornarla.
+	 * @return boolan[]
+	 */
 	public boolean[] getBooleanList(){
-		if(calculated){
+		if(calculatedBoolean){
 			return notPrime;
 		}else{
-			calculateList();
-			calculated=true;
-			return notPrime;
+			calculatedBoolean=true;
+			return calculateBoolanList();
 		}		
 	}	
-		
+
 	/**
 	 * Este metodo esta basado en la tecnica de Criba de Eratostenes.
-	 * Si verifico que i es primo, entonces todos los x (tal que x=i*[2,3,4,...,limit]) 
-	 * no son primos.
-	 * @return Lista de Primos
+	 * Para generar la lista de primos hasta latest.
+	 * @return Lista de Primos.
 	 */
 	private SortedSet<Integer> calculateList(){
-		notPrime= new boolean[latest+1]; //Si notPrime[i]=false entonces i es primo, caso contrario i no es primo.
-		primeSet = new TreeSet<Integer>(); //conjunto de primos
+		notPrime= new boolean[latest+1]; 
+		primeSet = new TreeSet<Integer>();
 		notPrime[0] = true;
 		if(latest>0){
 			notPrime[1] = true;
@@ -58,22 +70,44 @@ public class PrimeList {
 		for (int i = 2; i < latest; i++) {
 			if(!notPrime[i]){
 				primeSet.add(i);
-				//if(isPrime(i)){
-					int cont=2;
-					int started=i*cont;
-					while (started<=latest){
-						notPrime[started]=true;
-						cont++;
-						started=i*cont;
-					}
-				//}
-				
+				int cont=2;
+				int started=i*cont;
+				while (started<=latest){
+					notPrime[started]=true;
+					cont++;
+					started=i*cont;
+				}	
 			}
 		}
 		return primeSet;
 	}
+
+	/**
+	 * Este metodo retorna un arreglo de boolean, en donde, 
+	 * Si A[i] es true, significa que 'i' NO es primo.
+	 * @return boolean[]
+	 */
+	private boolean[] calculateBoolanList(){
+		notPrime= new boolean[latest+1]; //Si notPrime[i]=false entonces i es primo, caso contrario i no es primo.
+		notPrime[0] = true;
+		if(latest>0){
+			notPrime[1] = true;
+		}
+		for (int i = 2; i < latest; i++) {
+			if(!notPrime[i]){
+				int cont=2;
+				int started=i*cont;
+				while (started<=latest){
+					notPrime[started]=true;
+					cont++;
+					started=i*cont;
+				}
+			}
+		}
+		return notPrime;
+	}
 	
-	
+
 	/**
 	 * Este metodo devuelve true si num es primo, en caso contrario retorna false.
 	 * NO LO UTILIZO MAS AL IMPLEMENTAR EL ALGORITMO DE LA CRIBA ERATOSTENES.
@@ -99,6 +133,5 @@ public class PrimeList {
 			return true;
 		}
 	}
-	
 
 }
