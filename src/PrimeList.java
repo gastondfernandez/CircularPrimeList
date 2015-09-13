@@ -19,7 +19,7 @@ public class PrimeList {
 		}else{
 			this.latest=0;
 		}
-		
+
 	}
 	
 	
@@ -49,8 +49,8 @@ public class PrimeList {
 	 * @return Lista de Primos
 	 */
 	private SortedSet<Integer> calculateList(){
+		notPrime= new boolean[latest+1]; //Si notPrime[i]=false entonces i es primo, caso contrario i no es primo.
 		primeSet = new TreeSet<Integer>(); //conjunto de primos
-		boolean[] notPrime= new boolean[latest+1]; //Si notPrime[i]=false entonces i es primo, caso contrario i no es primo.
 		notPrime[0] = true;
 		if(latest>0){
 			notPrime[1] = true;
