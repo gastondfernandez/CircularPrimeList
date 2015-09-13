@@ -6,6 +6,7 @@ public class PrimeList {
 	private Integer first=0;
 	private Integer latest;
 	private boolean calculated;
+	private boolean[] notPrime;
 	SortedSet<Integer> primeSet;
 	
 	
@@ -26,9 +27,20 @@ public class PrimeList {
 		if(calculated){
 			return primeSet;
 		}else{
+			calculated=true;
 			return calculateList();
 		}
 	}
+	
+	public boolean[] getBooleanList(){
+		if(calculated){
+			return notPrime;
+		}else{
+			calculateList();
+			calculated=true;
+			return notPrime;
+		}		
+	}	
 		
 	/**
 	 * Este metodo esta basado en la tecnica de Criba de Eratostenes.
@@ -58,7 +70,6 @@ public class PrimeList {
 				
 			}
 		}
-		calculated=true;
 		return primeSet;
 	}
 	
